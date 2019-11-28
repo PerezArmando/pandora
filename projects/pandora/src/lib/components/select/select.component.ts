@@ -1,21 +1,24 @@
-import { Component, Input, EventEmitter, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
-import { Option, SelectionMode, SINGLE } from './select.model';
+import { Component, Input, EventEmitter, OnChanges, SimpleChanges, Output } from '@angular/core';
+import { Option, SelectionMode, SINGLE, DEFAULT_WIDTH_IN_PIXELS } from './select.model';
 import { IconsService } from './../../services/icons/icons.service';
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { Tag } from './components/tag/tag.model';
 
 @Component({
 	selector: 'pan-select',
 	templateUrl: './select.component.html',
-	styleUrls: ['./select.component.scss'],
-	providers: [IconsService]
+	styleUrls: ['./select.component.scss']
 })
 export class SelectComponent implements OnChanges {
 	private _isOpen: boolean = false;
 	private _options: Option[] = [];
 	private _selectionMode: SelectionMode = SINGLE;
 	private _noOptionsMsg: string = 'No options to list.';
-	private _minWidthInPx: string = '200px';
-	private _currSelectedOption: EventEmitter<Option> = new EventEmitter<Option>();
+	private _minWidthInPx: string = DEFAULT_WIDTH_IN_PIXELS;
+	private _maxWidthInPx: string = DEFAULT_WIDTH_IN_PIXELS;
+	private _width: string = `${DEFAULT_WIDTH_IN_PIXELS} !important`;
+	@Output()
+	private readonly currSelectedOption: EventEmitter<Option> = new EventEmitter<Option>();
 	private _disabled: boolean = false;
 
 	constructor(private readonly _iconsService: IconsService) {}
@@ -40,6 +43,24 @@ export class SelectComponent implements OnChanges {
 
 	get minWidthInPx() {
 		return this._minWidthInPx;
+	}
+
+	@Input()
+	set maxWidthInPx(maxWidthInPx: string) {
+		this._maxWidthInPx = maxWidthInPx;
+	}
+
+	get maxWidthInPx() {
+		return this._maxWidthInPx;
+	}
+
+	@Input()
+	set width(width: string) {
+		this._width = `${width} !important`;
+	}
+
+	get width() {
+		return this._width;
 	}
 
 	@Input()
@@ -104,6 +125,10 @@ export class SelectComponent implements OnChanges {
 		return this._options.find((option: Option) => !!option.selected);
 	}
 
+	public selectedOptions(): Option[] {
+		return this._options.filter((option: Option) => !!option.selected);
+	}
+
 	public getIcon(iconName: string): IconDefinition {
 		return this._iconsService.getIcon(iconName);
 	}
@@ -113,6 +138,20 @@ export class SelectComponent implements OnChanges {
 	}
 
 	public selectOption(newSelectedOption: Option): void {
+		if (this.isSingleSelection()) {
+			this.singleModeSelection(newSelectedOption);
+		} else {
+			this.multiModeSelection(newSelectedOption);
+		}
+		this.toggle();
+		this.currSelectedOption.emit(newSelectedOption);
+	}
+
+	private multiModeSelection(newSelectedOption: Option): void {
+		newSelectedOption.selected = true;
+	}
+
+	private singleModeSelection(newSelectedOption: Option): void {
 		const currSelectedOption: Option = this._options.find((option: Option) => !!option.selected);
 
 		if (!!currSelectedOption) {
@@ -120,7 +159,13 @@ export class SelectComponent implements OnChanges {
 		}
 
 		newSelectedOption.selected = true;
-		this.toggle();
-		this._currSelectedOption.emit(newSelectedOption);
+	}
+
+	public deleteTag(tag: Tag): void {
+		const option: Option = this._options.find((option: Option) => option.id === tag.id);
+
+		if (!!option) {
+			option.selected = false;
+		}
 	}
 }

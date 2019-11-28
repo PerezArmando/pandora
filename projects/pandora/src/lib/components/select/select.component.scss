@@ -1,6 +1,8 @@
 @import './../../styles/vars.scss';
 @import './../../styles/colors.scss';
 
+$select-input-height: 32px;
+
 .curtain {
 	width: 100vw;
 	height: 100vh;
@@ -15,10 +17,6 @@
 
 	* {
 		box-sizing: border-box;
-	}
-
-	:hover {
-		cursor: pointer;
 	}
 	
 	.disabled {
@@ -41,16 +39,44 @@
 		> fa-icon.is-closed {
 			margin-top: -5px;
 		}
+
+		.nothing-selected {
+			margin-left: 10px;
+		}
 	}
 	
 	.input,
 	.option {
-		height: 32px;
 		padding: 0 10px;
 		display: flex;
 		align-items: center;
 	}
 	
+	.option:hover {
+		cursor: pointer;
+	}
+
+	span.selected {
+		color: $lightgray;
+	}
+
+	.multi-select-input {
+		min-height: $select-input-height;
+		padding-left: 0 !important;
+		
+		> fa-icon:hover {
+			cursor: pointer;
+		}
+	}
+	
+	.single-select-input {
+		height: $select-input-height;
+	}
+
+	.single-select-input:hover {
+		cursor: pointer;
+	}
+
 	.option,
 	.no-options,
 	.content {

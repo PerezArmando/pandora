@@ -1,0 +1,18 @@
+@import './../../../../styles/colors.scss';
+@import './../../../../styles/vars.scss';
+
+.tag {
+    display: inline-block;
+    padding: 3px 5px 3px 0;
+    margin: 2px;
+    border-radius: 3px;
+    background-color: $lightblue;
+
+    > fa-icon {
+        margin: 0 $icon-distance;
+    }
+
+    > fa-icon:hover {
+        cursor: pointer;
+    }
+}
