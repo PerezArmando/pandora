@@ -5,7 +5,7 @@ import { IconsService } from './../../../../services/icons/icons.service';
 import { TagComponent } from './tag.component';
 import { Tag } from './tag.model';
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { SimpleChanges } from '@angular/core';
+import { SimpleChanges, SimpleChange } from '@angular/core';
 
 describe('TagComponent', () => {
     let fixture: ComponentFixture<TagComponent>;
@@ -71,6 +71,48 @@ describe('TagComponent', () => {
         component = fixture.componentInstance;
 
         // ACT
-        expect(component.validateLabelAndId).toThrowError('The inputs named label and id are required.');
+        expect(function () {
+            component.validateLabelAndId(null, null);
+        })
+        .toThrowError('The inputs named label and id are required.');
+    });
+
+    
+    it('should throw an error if no id is present.', () => {
+        // ARRANGE
+        fixture = TestBed.createComponent(TagComponent);
+        component = fixture.componentInstance;
+
+        // ACT
+        expect(function () {
+            component.validateLabelAndId(null, { currentValue: 'A label' } as SimpleChange);
+        })
+        .toThrowError('The inputs named label and id are required.');
+    });
+
+    it('should throw an error if no label is present.', () => {
+        // ARRANGE
+        fixture = TestBed.createComponent(TagComponent);
+        component = fixture.componentInstance;
+
+        // ACT
+        expect(function () {
+            component.validateLabelAndId({ currentValue: 1 } as SimpleChange, null);
+        })
+        .toThrowError('The inputs named label and id are required.');
+    });
+
+    it('should NOT throw an error if required params are present.', () => {
+        // ARRANGE
+        fixture = TestBed.createComponent(TagComponent);
+        component = fixture.componentInstance;
+
+        // ACT
+        expect(function () {
+            component.validateLabelAndId(
+                { currentValue: 1 } as SimpleChange,
+                { currentValue: 'A label' } as SimpleChange);
+        })
+        .not.toThrowError('The inputs named label and id are required.');
     });
 });
