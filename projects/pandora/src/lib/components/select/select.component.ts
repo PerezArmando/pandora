@@ -1,5 +1,5 @@
-import { Component, Input, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { Option, SelectionMode } from './select.model';
+import { Component, Input, EventEmitter, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Option, SelectionMode, SINGLE } from './select.model';
 import { IconsService } from './../../services/icons/icons.service';
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
@@ -12,20 +12,25 @@ import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 export class SelectComponent implements OnChanges {
 	private _isOpen: boolean = false;
 	private _options: Option[] = [];
-	private _selectionMode: SelectionMode = 'single';
+	private _selectionMode: SelectionMode = SINGLE;
 	private _noOptionsMsg: string = 'No options to list.';
 	private _minWidthInPx: string = '200px';
 	private _currSelectedOption: EventEmitter<Option> = new EventEmitter<Option>();
+	private _disabled: boolean = false;
 
 	constructor(private readonly _iconsService: IconsService) {}
 
 	ngOnChanges(changes: SimpleChanges) {
-		if (this._selectionMode == 'single') {
-			const selectedOptions: Option[] = changes.options.currentValue.filter((option: Option) => !!option.selected);
-			if (!!selectedOptions && selectedOptions.length > 1) {
-				throw new Error('Only one option MUST be selected at any given time.');
-			}
-		}
+		this.validateQtySelectedOptions(changes.options.currentValue);
+	}
+
+	@Input()
+	set disabled(disabled: boolean) {
+		this._disabled = disabled;
+	}
+
+	get disabled() {
+		return this._disabled;
 	}
 
 	@Input()
@@ -72,8 +77,23 @@ export class SelectComponent implements OnChanges {
 		return this._iconsService;
 	}
 
+	private validateQtySelectedOptions(options: Option[]) {
+		if (this._selectionMode === SINGLE) {
+			const selectedOptions: Option[] = options.filter((option: Option) => !!option.selected);
+			if (!!selectedOptions && selectedOptions.length > 1) {
+				throw new Error('Only one option MUST be selected at any given time.');
+			}
+		}
+	}
+
+	public isSingleSelection(): boolean {
+		return this._selectionMode === SINGLE;
+	}
+
 	public toggle(): void {
-		this._isOpen = !this._isOpen;
+		if (!this._disabled) {
+			this._isOpen = !this._isOpen;
+		}
 	}
 
 	public close(): void {

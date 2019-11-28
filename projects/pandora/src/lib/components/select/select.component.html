@@ -1,8 +1,9 @@
 <div class="curtain" *ngIf="isOpen" (click)="close()"></div>
 <div class="select" [style.min-width]="minWidthInPx">
 	<ng-container
+		*ngIf="isSingleSelection()"
 		[ngTemplateOutlet]="currentSelectedOption"
-		[ngTemplateOutletContext]="{ selectedOption: selectedOption(), getIcon: iconService.getIcon, isOpen: isOpen }">
+		[ngTemplateOutletContext]="{ disabled: disabled, selectedOption: selectedOption(), getIcon: iconService.getIcon, isOpen: isOpen }">
 	</ng-container>
 	<div class="content" *ngIf="isOpen">
 		<ng-container
@@ -22,8 +23,9 @@
 	#currentSelectedOption
 	let-selectedOption="selectedOption"
 	let-getIcon="getIcon"
+	let-disabled="disabled"
 	let-isOpen="isOpen">
-	<div class="input" (click)="toggle()">
+	<div [class.disabled]="disabled" class="input" (click)="toggle()">
 		<div>
 			<fa-icon *ngIf="!!selectedOption && selectedOption.icon" [icon]="getIcon(selectedOption.icon)"></fa-icon>
 			<span>

@@ -21,6 +21,10 @@
 		cursor: pointer;
 	}
 	
+	.disabled {
+		color: $lightgray;
+	}
+
 	.input {
 		display: flex;
 		justify-content: space-between;
