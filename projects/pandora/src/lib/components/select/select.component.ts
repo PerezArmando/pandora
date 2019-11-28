@@ -20,9 +20,11 @@ export class SelectComponent implements OnChanges {
 	constructor(private readonly _iconsService: IconsService) {}
 
 	ngOnChanges(changes: SimpleChanges) {
-		const selectedOptions: Option[] = changes.options.currentValue.filter((option: Option) => !!option.selected);
-		if (!!selectedOptions && selectedOptions.length > 1) {
-			throw new Error('Only one option MUST be selected at any given time.');
+		if (this._selectionMode == 'single') {
+			const selectedOptions: Option[] = changes.options.currentValue.filter((option: Option) => !!option.selected);
+			if (!!selectedOptions && selectedOptions.length > 1) {
+				throw new Error('Only one option MUST be selected at any given time.');
+			}
 		}
 	}
 
