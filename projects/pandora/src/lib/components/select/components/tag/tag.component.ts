@@ -12,7 +12,7 @@ export class TagComponent implements OnChanges {
     private _id: string | number;
     private _label: string = '';
     @Output()
-    private readonly deleteTag: EventEmitter<Tag> = new EventEmitter<Tag>();
+    public readonly deleteTag: EventEmitter<Tag> = new EventEmitter<Tag>();
 
     constructor(private _iconsService: IconsService) {}
 
