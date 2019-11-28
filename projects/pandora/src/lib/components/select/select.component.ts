@@ -110,10 +110,10 @@ export class SelectComponent implements OnChanges {
 	public selectOption(newSelectedOption: Option): void {
 		if (this.isSingleSelection()) {
 			this.singleModeSelection(newSelectedOption);
+			this.toggle();
 		} else {
 			this.multiModeSelection(newSelectedOption);
 		}
-		this.toggle();
 		this.currSelectedOption.emit(newSelectedOption);
 	}
 
