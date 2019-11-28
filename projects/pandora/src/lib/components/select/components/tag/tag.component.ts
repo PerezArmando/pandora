@@ -46,7 +46,7 @@ export class TagComponent implements OnChanges {
         this.deleteTag.emit({ id: this._id, label: this._label } as Tag);
     }
 
-    private validateLabelAndId(label: SimpleChange, id: SimpleChange): void {
+    public validateLabelAndId(label: SimpleChange, id: SimpleChange): void {
         if (!label || !id) {
             throw new Error('The inputs named label and id are required.');
         }

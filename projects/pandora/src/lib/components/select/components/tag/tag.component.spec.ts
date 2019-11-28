@@ -64,4 +64,13 @@ describe('TagComponent', () => {
         expect(closeIcon).toBeTruthy();
         expect(iconsService.getIcon('times').iconName).toEqual(closeIcon.iconName);
     });
+
+    it('should throw an error if no id nor label is present.', () => {
+        // ARRANGE
+        fixture = TestBed.createComponent(TagComponent);
+        component = fixture.componentInstance;
+
+        // ACT
+        expect(component.validateLabelAndId).toThrowError('The inputs named label and id are required.');
+    });
 });
