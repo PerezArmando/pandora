@@ -1,3 +1,4 @@
+<div class="curtain" *ngIf="isOpen" (click)="close()"></div>
 <div class="select" [style.min-width]="minWidthInPx">
 	<ng-container
 		[ngTemplateOutlet]="currentSelectedOption"
@@ -12,7 +13,7 @@
 		<ng-container
 			*ngIf="!hasOptions()"
 			[ngTemplateOutlet]="withoutOptions"
-			[ngTemplateOutletContext]="{ noOptionsMsg: noOptionsMsg, icon: getIcon('times-circle')  }">
+			[ngTemplateOutletContext]="{ noOptionsMsg: noOptionsMsg, icon: getIcon('times-circle') }">
 		</ng-container>
 	</div>
 </div>
@@ -24,7 +25,7 @@
 	let-isOpen="isOpen">
 	<div class="input" (click)="toggle()">
 		<div>
-			<fa-icon *ngIf="selectedOption.icon" [icon]="getIcon(selectedOption.icon)"></fa-icon>
+			<fa-icon *ngIf="!!selectedOption && selectedOption.icon" [icon]="getIcon(selectedOption.icon)"></fa-icon>
 			<span>
 				{{ selectedOption?.label || 'None' }}
 			</span>

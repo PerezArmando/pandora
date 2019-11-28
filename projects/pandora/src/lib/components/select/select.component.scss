@@ -1,68 +1,85 @@
-.select * {
-	box-sizing: border-box;
+@import './../../styles/vars.scss';
+@import './../../styles/colors.scss';
+
+.curtain {
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	z-index: $select-curtain;
 }
 
 .select {
 	display: inline-block;
 	position: relative;
+	z-index: $select;
+
+	* {
+		box-sizing: border-box;
+	}
+
+	:hover {
+		cursor: pointer;
+	}
+	
+	.input {
+		display: flex;
+		justify-content: space-between;
+		border: solid 1px $lightgray;
+
+		> fa-icon {
+			margin-left: $icon-distance;
+		}
+
+		> fa-icon.is-open {
+			margin-top: 8px;
+		}
+
+		> fa-icon.is-closed {
+			margin-top: -5px;
+		}
+	}
+	
+	.input,
+	.option {
+		height: 32px;
+		padding: 0 10px;
+		display: flex;
+		align-items: center;
+	}
+	
+	.option,
+	.no-options,
+	.content {
+		width: 100%;
+	}
+
+	.option,
+	.no-options {
+		padding: 10px;
+	}
+	
+	.content {
+		position: absolute;
+		border-right: solid 1px $lightgray;
+		border-bottom: solid 1px $lightgray;
+		border-left: solid 1px $lightgray;
+	}
+
+	.option:hover {
+		background-color: $lightgray;
+	
+		> fa-icon {
+			margin-right: $icon-distance;
+		}
+	}
+
+	.no-options-icon {
+		color: $red;
+	}
 }
 
-.select:hover {
-	cursor: pointer;
-}
 
-.input {
-	border: solid 1px lightgray;
-	display: flex;
-	justify-content: space-between;
-}
 
-.input,
-.option {
-	height: 32px;
-	padding: 0 10px;
-	display: flex;
-	align-items: center;
-}
 
-.input > fa-icon {
-	margin-left: 5px;
-}
 
-.is-open {
-    margin-top: 8px;
-}
 
-.is-closed {
-	margin-top: -5px;
-}
-
-.option,
-.no-options,
-.content {
-	width: 100%;
-}
-
-.option,
-.no-options {
-	padding: 10px;
-}
-
-.content {
-	position: absolute;
-	border-right: solid 1px lightgray;
-	border-bottom: solid 1px lightgray;
-	border-left: solid 1px lightgray;
-}
-
-.option:hover {
-	background-color: lightgray;
-}
-
-.option > fa-icon {
-	margin-right: 5px;
-}
-
-.no-options-icon {
-	color: red;
-}

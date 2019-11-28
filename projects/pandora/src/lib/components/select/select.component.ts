@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter } from '@angular/core';
+import { Component, Input, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { Option, SelectionMode } from './select.model';
 import { IconsService } from './../../services/icons/icons.service';
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
@@ -9,15 +9,22 @@ import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 	styleUrls: ['./select.component.scss'],
 	providers: [IconsService]
 })
-export class SelectComponent {
+export class SelectComponent implements OnChanges {
 	private _isOpen: boolean = false;
 	private _options: Option[] = [];
 	private _selectionMode: SelectionMode = 'single';
-	private _noOptionsMsg: string = 'No options available.';
+	private _noOptionsMsg: string = 'No options to list.';
 	private _minWidthInPx: string = '200px';
 	private _currSelectedOption: EventEmitter<Option> = new EventEmitter<Option>();
 
 	constructor(private readonly _iconsService: IconsService) {}
+
+	ngOnChanges(changes: SimpleChanges) {
+		const selectedOptions: Option[] = changes.options.currentValue.filter((option: Option) => !!option.selected);
+		if (!!selectedOptions && selectedOptions.length > 1) {
+			throw new Error('Only one option MUST be selected at any given time.');
+		}
+	}
 
 	@Input()
 	set minWidthInPx(minWidthInPx: string) {
@@ -67,6 +74,10 @@ export class SelectComponent {
 		this._isOpen = !this._isOpen;
 	}
 
+	public close(): void {
+		this._isOpen = false;
+	}
+
 	public selectedOption(): Option {
 		return this._options.find((option: Option) => !!option.selected);
 	}
@@ -88,6 +99,6 @@ export class SelectComponent {
 
 		newSelectedOption.selected = true;
 		this.toggle();
-		this._currSelectedOption.emit();
+		this._currSelectedOption.emit(newSelectedOption);
 	}
 }
