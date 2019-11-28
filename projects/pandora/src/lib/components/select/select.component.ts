@@ -1,5 +1,5 @@
 import { Component, Input, EventEmitter, OnChanges, SimpleChanges, Output } from '@angular/core';
-import { Option, SelectionMode, SINGLE, DEFAULT_WIDTH_IN_PIXELS } from './select.model';
+import { Option, SelectionMode, SINGLE } from './select.model';
 import { IconsService } from './../../services/icons/icons.service';
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Tag } from './components/tag/tag.model';
@@ -14,9 +14,6 @@ export class SelectComponent implements OnChanges {
 	private _options: Option[] = [];
 	private _selectionMode: SelectionMode = SINGLE;
 	private _noOptionsMsg: string = 'No options to list.';
-	private _minWidthInPx: string = DEFAULT_WIDTH_IN_PIXELS;
-	private _maxWidthInPx: string = DEFAULT_WIDTH_IN_PIXELS;
-	private _width: string = `${DEFAULT_WIDTH_IN_PIXELS} !important`;
 	@Output()
 	private readonly currSelectedOption: EventEmitter<Option> = new EventEmitter<Option>();
 	private _disabled: boolean = false;
@@ -34,33 +31,6 @@ export class SelectComponent implements OnChanges {
 
 	get disabled() {
 		return this._disabled;
-	}
-
-	@Input()
-	set minWidthInPx(minWidthInPx: string) {
-		this._minWidthInPx = minWidthInPx;
-	}
-
-	get minWidthInPx() {
-		return this._minWidthInPx;
-	}
-
-	@Input()
-	set maxWidthInPx(maxWidthInPx: string) {
-		this._maxWidthInPx = maxWidthInPx;
-	}
-
-	get maxWidthInPx() {
-		return this._maxWidthInPx;
-	}
-
-	@Input()
-	set width(width: string) {
-		this._width = `${width} !important`;
-	}
-
-	get width() {
-		return this._width;
 	}
 
 	@Input()

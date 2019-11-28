@@ -11,6 +11,7 @@ $select-input-height: 32px;
 }
 
 .select {
+	width: 100%;
 	display: inline-block;
 	position: relative;
 	z-index: $select;
@@ -57,7 +58,7 @@ $select-input-height: 32px;
 	}
 
 	span.selected {
-		color: $lightgray;
+		color: darken($lightgray, 15%);
 	}
 
 	.multi-select-input {

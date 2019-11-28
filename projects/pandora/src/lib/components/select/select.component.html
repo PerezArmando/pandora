@@ -1,9 +1,5 @@
 <div class="curtain" *ngIf="isOpen" (click)="close()"></div>
-<div
-	class="select"
-	[style.width]="width"
-	[style.min-width]="minWidthInPx"
-	[style.max-width]="maxWidthInPx">
+<div class="select">
 	<ng-container
 		*ngIf="isSingleSelection()"
 		[ngTemplateOutlet]="currentSingleSelectedOption"
@@ -28,6 +24,7 @@
 	</div>
 </div>
 
+<!-- Multi select -->
 <ng-template
 	#currentMultiSelectedOptions
 	let-getIcon="getIcon"
@@ -59,6 +56,7 @@
 	</div>
 </ng-template>
 
+<!-- Single select -->
 <ng-template
 	#currentSingleSelectedOption
 	let-selectedOption="selectedOption"
@@ -76,6 +74,7 @@
 	</div>
 </ng-template>
 
+<!-- List of options -->
 <ng-template #withOptions let-options="options" let-getIcon="getIcon">
 	<div class="option" *ngFor="let option of options" (click)="selectOption(option)">
 		<fa-icon *ngIf="option.icon" [icon]="getIcon(option.icon)"></fa-icon>
@@ -85,6 +84,7 @@
 	</div>
 </ng-template>
 
+<!-- No options -->
 <ng-template #withoutOptions let-noOptionsMsg="noOptionsMsg" let-icon="icon">
 	<div class="no-options">
 		<fa-icon class="no-options-icon" [icon]="icon"></fa-icon>
