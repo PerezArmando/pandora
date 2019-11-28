@@ -1,0 +1,52 @@
+<div class="select" [style.min-width]="minWidthInPx">
+	<ng-container
+		[ngTemplateOutlet]="currentSelectedOption"
+		[ngTemplateOutletContext]="{ selectedOption: selectedOption(), getIcon: iconService.getIcon, isOpen: isOpen }">
+	</ng-container>
+	<div class="content" *ngIf="isOpen">
+		<ng-container
+			*ngIf="hasOptions()"
+			[ngTemplateOutlet]="withOptions"
+			[ngTemplateOutletContext]="{ options: options, getIcon: iconService.getIcon }">
+		</ng-container>
+		<ng-container
+			*ngIf="!hasOptions()"
+			[ngTemplateOutlet]="withoutOptions"
+			[ngTemplateOutletContext]="{ noOptionsMsg: noOptionsMsg, icon: getIcon('times-circle')  }">
+		</ng-container>
+	</div>
+</div>
+
+<ng-template
+	#currentSelectedOption
+	let-selectedOption="selectedOption"
+	let-getIcon="getIcon"
+	let-isOpen="isOpen">
+	<div class="input" (click)="toggle()">
+		<div>
+			<fa-icon *ngIf="selectedOption.icon" [icon]="getIcon(selectedOption.icon)"></fa-icon>
+			<span>
+				{{ selectedOption?.label || 'None' }}
+			</span>
+		</div>
+		<fa-icon [class.is-open]="isOpen" [class.is-closed]="!isOpen" [icon]="getIcon(!isOpen ? 'sort-down' : 'sort-up')"></fa-icon>
+	</div>
+</ng-template>
+
+<ng-template #withOptions let-options="options" let-getIcon="getIcon">
+	<div class="option" *ngFor="let option of options" (click)="selectOption(option)">
+		<fa-icon *ngIf="option.icon" [icon]="getIcon(option.icon)"></fa-icon>
+		<span>
+			{{ option.label }}
+		</span>
+	</div>
+</ng-template>
+
+<ng-template #withoutOptions let-noOptionsMsg="noOptionsMsg" let-icon="icon">
+	<div class="no-options">
+		<fa-icon class="no-options-icon" [icon]="icon"></fa-icon>
+		<span>
+			{{ noOptionsMsg }}
+		</span>
+	</div>
+</ng-template>

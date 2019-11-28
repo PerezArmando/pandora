@@ -1,0 +1,68 @@
+.select * {
+	box-sizing: border-box;
+}
+
+.select {
+	display: inline-block;
+	position: relative;
+}
+
+.select:hover {
+	cursor: pointer;
+}
+
+.input {
+	border: solid 1px lightgray;
+	display: flex;
+	justify-content: space-between;
+}
+
+.input,
+.option {
+	height: 32px;
+	padding: 0 10px;
+	display: flex;
+	align-items: center;
+}
+
+.input > fa-icon {
+	margin-left: 5px;
+}
+
+.is-open {
+    margin-top: 8px;
+}
+
+.is-closed {
+	margin-top: -5px;
+}
+
+.option,
+.no-options,
+.content {
+	width: 100%;
+}
+
+.option,
+.no-options {
+	padding: 10px;
+}
+
+.content {
+	position: absolute;
+	border-right: solid 1px lightgray;
+	border-bottom: solid 1px lightgray;
+	border-left: solid 1px lightgray;
+}
+
+.option:hover {
+	background-color: lightgray;
+}
+
+.option > fa-icon {
+	margin-right: 5px;
+}
+
+.no-options-icon {
+	color: red;
+}

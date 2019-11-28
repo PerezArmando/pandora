@@ -2,5 +2,41 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
-  "projects": {}
+  "projects": {
+    "pandora": {
+      "projectType": "library",
+      "root": "projects/pandora",
+      "sourceRoot": "projects/pandora/src",
+      "prefix": "pan",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/pandora/tsconfig.lib.json",
+            "project": "projects/pandora/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/pandora/src/test.ts",
+            "tsConfig": "projects/pandora/tsconfig.spec.json",
+            "karmaConfig": "projects/pandora/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/pandora/tsconfig.lib.json",
+              "projects/pandora/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }},
+  "defaultProject": "pandora"
 }
