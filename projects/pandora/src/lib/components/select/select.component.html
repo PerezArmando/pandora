@@ -1,5 +1,5 @@
 <div class="curtain" *ngIf="isOpen" (click)="close()"></div>
-<div class="select">
+<div class="select" (click)="focus()">
 	<ng-container
 		*ngIf="isSingleSelection()"
 		[ngTemplateOutlet]="currentSingleSelectedOption"
@@ -8,7 +8,7 @@
 	<ng-container
 		*ngIf="!isSingleSelection()"
 		[ngTemplateOutlet]="currentMultiSelectedOptions"
-		[ngTemplateOutletContext]="{ selectedOptions: selectedOptions(), disabled: disabled, getIcon: iconService.getIcon, isOpen: isOpen }">
+		[ngTemplateOutletContext]="{ hasSearch: hasSearch, selectedOptions: selectedOptions(), disabled: disabled, getIcon: iconService.getIcon, isOpen: isOpen }">
 	</ng-container>
 	<div class="content" *ngIf="isOpen">
 		<ng-container
@@ -30,22 +30,23 @@
 	let-getIcon="getIcon"
 	let-disabled="disabled"
 	let-isOpen="isOpen"
-	let-selectedOptions="selectedOptions">
+	let-selectedOptions="selectedOptions"
+	let-hasSearch="hasSearch">
 	<div [class.disabled]="disabled" class="input multi-select-input">
 		<div>
-			<ng-container *ngIf="!!selectedOptions && selectedOptions.length > 0; else nothingSelected">
-				<pan-tag
-					*ngFor="let selectedOption of selectedOptions"
-					[id]="selectedOption.id"
-					[label]="selectedOption.label"
-					(deleteTag)="deleteTag($event)">
-				</pan-tag>
-			</ng-container>
-			<ng-template #nothingSelected>
-				<span class="nothing-selected">
-					Nothing selected.
-				</span>
-			</ng-template>
+			<div>
+				<ng-container *ngIf="!!selectedOptions && selectedOptions.length > 0">
+					<pan-tag
+						*ngFor="let selectedOption of selectedOptions"
+						[id]="selectedOption.id"
+						[label]="selectedOption.label"
+						(deleteTag)="deleteTag($event)">
+					</pan-tag>
+				</ng-container>
+			</div>
+			<div>
+				<ng-container *ngIf="hasSearch" [ngTemplateOutlet]="search"></ng-container>
+			</div>
 		</div>
 		<fa-icon
 			[class.is-open]="isOpen"
@@ -91,5 +92,12 @@
 		<span>
 			{{ noOptionsMsg }}
 		</span>
+	</div>
+</ng-template>
+
+<!-- Search -->
+<ng-template #search>
+	<div class="search-input">
+		<input type="text">
 	</div>
 </ng-template>

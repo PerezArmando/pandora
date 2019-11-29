@@ -17,11 +17,21 @@ export class SelectComponent implements OnChanges {
 	@Output()
 	private readonly currSelectedOption: EventEmitter<Option> = new EventEmitter<Option>();
 	private _disabled: boolean = false;
+	private _hasSearch: boolean = false;
 
 	constructor(private readonly _iconsService: IconsService) {}
 
 	ngOnChanges(changes: SimpleChanges) {
 		this.validateQtySelectedOptions(changes.options.currentValue);
+	}
+
+	@Input()
+	set hasSearch(hasSearch: boolean) {
+		this._hasSearch = hasSearch;
+	}
+
+	get hasSearch() {
+		return this._hasSearch;
 	}
 
 	@Input()
@@ -137,5 +147,9 @@ export class SelectComponent implements OnChanges {
 		if (!!option) {
 			option.selected = false;
 		}
+	}
+
+	public focus(): void {
+		
 	}
 }

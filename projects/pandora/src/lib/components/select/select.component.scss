@@ -29,6 +29,17 @@ $select-input-height: 32px;
 		justify-content: space-between;
 		border: solid 1px $lightgray;
 
+		.search-input > input {
+			padding: 5px;
+			outline: none;
+			border: none;
+		}
+
+		.search-input > input,
+		> div:first-child {
+			width: 100%;
+		}
+
 		> fa-icon {
 			margin-left: $icon-distance;
 		}
@@ -39,10 +50,6 @@ $select-input-height: 32px;
 
 		> fa-icon.is-closed {
 			margin-top: -5px;
-		}
-
-		.nothing-selected {
-			margin-left: 10px;
 		}
 	}
 	
